@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
 import dotenv from "dotenv";
+import fs from "fs";
+import https from "https";
 
 dotenv.config();
 
@@ -80,7 +82,14 @@ app.use((err, req, res, next) => {
     .json({ message: "Error interno del servidor", error: err.message });
 });
 
-const PORT = process.env.PORT || 80;
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
+const options = {
+  key: fs.readFileSync("ssl/server.key"),
+  cert: fs.readFileSync("ssl/server.crt"),
+};
+
+const PORT = process.env.PORT || 443;
+https.createServer(options, app).listen(PORT, () => {
+  console.log(`Servidor HTTPS corriendo en el puerto ${PORT}`);
 });
+
+export default app;
