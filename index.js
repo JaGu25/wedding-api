@@ -8,6 +8,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
+app.use(cors());
+
 const s3 = new S3Client({
   region: process.env.AWS_REGION,
   credentials: {
