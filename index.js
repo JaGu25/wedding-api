@@ -83,8 +83,8 @@ app.use((err, req, res, next) => {
 });
 
 const options = {
-  key: fs.readFileSync("ssl/server.key"),
-  cert: fs.readFileSync("ssl/server.crt"),
+  key: fs.readFileSync("/etc/letsencrypt/live/dixonalbi.com/privkey.pem"),
+  cert: fs.readFileSync("/etc/letsencrypt/live/dixonalbi.com/fullchain.pem"),
 };
 
 const PORT = process.env.PORT || 443;
